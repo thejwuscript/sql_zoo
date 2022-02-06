@@ -1,4 +1,4 @@
-entrypoint = "main.sql"
+entrypoint = "JOIN.sql"
 
 [interpreter]
 command = [
