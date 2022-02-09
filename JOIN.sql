@@ -40,3 +40,24 @@ WHERE coach = 'Fernando Santos';
 SELECT player
 FROM game JOIN goal ON (id=matchid)
 WHERE stadium = 'National Stadium, Warsaw';
+--10.
+--Find the routes involving two buses that can go from Craiglockhart to Lochend.
+--Show the bus no. and company for the first bus, the name of the stop for the transfer,
+--and the bus no. and company for the second bus.
+SELECT Origin.num, Origin.company, Origin.name, Destination.num, Destination.company
+FROM
+  (SELECT b.num, b.company, stopsa.name 
+  FROM route a
+  JOIN route b ON (a.company=b.company AND a.num=b.num)
+  JOIN stops stopsb ON (b.stop=stopsb.id)
+  JOIN stops stopsa ON (a.stop=stopsa.id)
+  WHERE stopsb.name='Craiglockhart') AS Origin
+JOIN
+  (SELECT stopsc.name, c.num, c.company  
+  FROM route c
+  JOIN route d ON (c.company=d.company AND c.num=d.num)
+  JOIN stops stopsd ON (d.stop=stopsd.id)
+  JOIN stops stopsc ON (c.stop=stopsc.id)
+  WHERE stopsd.name='Lochend') AS Destination
+ON Origin.name = Destination.name
+ORDER BY Origin.num, Origin.name, Destination.num;
